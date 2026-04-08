@@ -25,10 +25,8 @@ jobs:
     env:
       JOB_VAR: "job scope"
     steps:
-      - environment:
-          STEP_VAR: "step scope"
       - name: Run tests
-        run: echo "Testing with variables in following scopes: $GLOBAL_VAR, $JOB_VAR, and $STEP_VAR"
+        run: echo "Testing with variables in following scopes: $GLOBAL_VAR, $JOB_VAR"
 
   deploy:
     runs-on: ubuntu-latest

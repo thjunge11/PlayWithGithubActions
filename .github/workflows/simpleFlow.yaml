@@ -1,0 +1,8 @@
+name: Workflow Name
+on: [push, pull_request]
+jobs:
+  job_name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step Name
+        run: echo "Hello, GitHub Actions!"

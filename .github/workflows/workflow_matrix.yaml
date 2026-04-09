@@ -1,7 +1,6 @@
 name: CI — matrix builds + E2E (workflow A)
 
-on:
-  push:
+on: workflow_dispatch
 
 jobs:
   build:

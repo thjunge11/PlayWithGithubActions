@@ -2,7 +2,7 @@ name: Post Process (Workflow Run expl.)
 
 on:
   workflow_run:
-    workflows: ["CI — matrix builds + E2E (workflow A)"]
+    workflows: ["workflow event example"]
     types:
       - completed
 

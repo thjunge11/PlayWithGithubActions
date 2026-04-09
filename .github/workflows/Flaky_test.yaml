@@ -16,7 +16,7 @@ jobs:
           # If it exits non-zero, capture its exit code to flaky.exit.
           python - <<'PY' || echo $? > flaky.exit
           import random, sys
-          if 1 < 0.1:
+          if random.random() < 0.5:
               print("Flaky test passed")
               sys.exit(0)
           else:

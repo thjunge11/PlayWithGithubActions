@@ -1,0 +1,25 @@
+name: OIDC AWS Deploy Example
+
+on:
+  workflow_dispatch:
+
+jobs:
+  aws-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::520397876818:role/github-oidc-access
+          aws-region: eu-central-1
+      - name: Who am I?
+        run: aws sts get-caller-identity
+
+      - name: List S3 buckets (example)
+        run: aws s3 ls

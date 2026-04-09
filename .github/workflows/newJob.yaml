@@ -1,4 +1,4 @@
-name: multiple jobs
+name: new job
 
 on:
   workflow_dispatch:

@@ -1,0 +1,33 @@
+name: Run Tests and Upload Logs
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt || true; fi
+
+      - name: Run tests (capture logs)
+        # Always produce test.log even if tests fail
+        run: |
+          pytest -q | tee test.log || true
+
+      - name: Upload test logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-logs
+          path: test.log

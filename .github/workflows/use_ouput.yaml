@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show build version from reusable workflow
-        run: echo "Build version \":\" ${{ needs.call-build.outputs.build-version }}"
+        run: echo "Build version ${{ needs.call-build.outputs.build-version }}"

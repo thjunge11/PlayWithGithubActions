@@ -1,10 +1,7 @@
 name: Reusable Build (emit version)
 
 on:
-  workflow_call:
-    outputs:
-      build-version:
-        type: string
+  workflow_call: 
     inputs:
       python-version:
         type: string

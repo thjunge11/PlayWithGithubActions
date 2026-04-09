@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: create file testfile.lck
         run: touch testfile.lck
+      - name: test if file testfile.lck exists
+        run: test -f testfile.lck
 
   check:
     runs-on: ubuntu-latest
@@ -17,6 +19,6 @@ jobs:
       JOB_VAR: "job scope"
     steps:
       - name: list directory
-        run: ls
+        run: ls -la
       - name: test if file testfile.lck exists
         run: test -f testfile.lck

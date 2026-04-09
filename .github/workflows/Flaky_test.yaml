@@ -28,7 +28,7 @@ jobs:
         run: |
           if [ -f flaky.exit ]; then
             echo "Flaky test failed with code $(cat flaky.exit)"
-            exit 0
+            exit 1
           else
             echo "Flaky test passed"
           fi

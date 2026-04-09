@@ -25,12 +25,11 @@ jobs:
   check:
     runs-on: ubuntu-latest
     needs: create
-    env:
-      JOB_VAR: "job scope"
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: myArtifacts
+          path: dist
       - name: test if file testfile.lck exists
         run: |
           ls -la

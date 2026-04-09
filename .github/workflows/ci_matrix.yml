@@ -1,8 +1,7 @@
 name: CI — matrix builds + E2E
 
 on:
-  push:
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   # MATRIX: runs the reusable build for each python-version in the matrix

@@ -1,14 +1,16 @@
 name: Call Reusable and Show Build Version
 
-on: workflow_dispatch
+on:
+  push:
+  pull_request:
 
 jobs:
   call-build:
-    uses: ./.github/workflows/output.yaml
+    uses: ./.github/workflows/example_06_reusable_build.yml
 
   show:
     needs: call-build
     runs-on: ubuntu-latest
     steps:
       - name: Show build version from reusable workflow
-        run: echo "Build version: ${{ needs.call-build.outputs.build-version }}"
+        run: echo "Build version \":\" ${{ needs.call-build.outputs.build-version }}"

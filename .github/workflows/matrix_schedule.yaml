@@ -1,0 +1,23 @@
+name: Matrix Conditional Example
+
+on:
+  schedule:
+    - cron: '55 15 * * *'
+  workflow_dispatch:
+jobs:
+  build:
+    strategy:
+      matrix:
+        python-version: ["3.10","3.11"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Base step
+        run: echo "Running basic steps for Python ${{ matrix.python-version }}"
+
+      - name: Lint on 3.11 only
+        if: matrix.python-version == '3.11'
+        run: |
+          echo "Running linter because python-version is ${{ matrix.python-version }}"

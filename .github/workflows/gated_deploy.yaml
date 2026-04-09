@@ -1,0 +1,25 @@
+name: Gated Deploy Using Job Outputs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      built: ${{ steps.set.outputs.built }}
+    steps:
+      - id: set
+        run: |
+          # Simulate build and set output
+          echo "built=true" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: build
+    if: needs.build.outputs.built == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Deploy
+        run: echo "Deploying because build reported built=true"

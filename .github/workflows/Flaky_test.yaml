@@ -1,0 +1,34 @@
+name: Flaky Test Collector
+
+on: workflow_dispatch
+
+jobs:
+  flaky:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run flaky test (inline) but continue on error
+        continue-on-error: true
+        run: |
+          # Run a tiny flaky test inline (no separate file needed).
+          # If it exits non-zero, capture its exit code to flaky.exit.
+          python - <<'PY' || echo $? > flaky.exit
+          import random, sys
+          if random.random() < 0.6:
+              print("Flaky test passed")
+              sys.exit(0)
+          else:
+              print("Flaky test failed")
+              sys.exit(1)
+          PY
+
+      - name: Report flaky outcome
+        run: |
+          if [ -f flaky.exit ]; then
+            echo "Flaky test failed with code $(cat flaky.exit)"
+            exit 0
+          else
+            echo "Flaky test passed"
+          fi

@@ -1,0 +1,15 @@
+name: Use Composite Action
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  call-composite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (not required by this action but common)
+        uses: actions/checkout@v4
+
+      - name: Run composite action
+        uses: ./.github/actions/say-hello

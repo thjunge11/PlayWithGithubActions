@@ -1,0 +1,8 @@
+name: "Say Hello Composite"
+description: "A tiny composite action that echoes a greeting"
+runs:
+  using: "composite"
+  steps:
+    - name: Print greeting
+      shell: bash
+      run: echo "Hello from composite action! (actor=${{ github.actor }})"

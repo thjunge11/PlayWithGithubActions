@@ -1,0 +1,17 @@
+name: CI — matrix builds + E2E (workflow A)
+
+on:
+  push:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        python-version: ["3.11","3.12"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Print entry
+        run: echo "Matrix job for python ${{ matrix.python-version }}"

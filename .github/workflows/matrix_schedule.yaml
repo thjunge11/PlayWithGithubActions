@@ -1,4 +1,4 @@
-name: Matrix Conditional Example
+name: Scheduled Matrix Conditional Example
 
 on:
   schedule:

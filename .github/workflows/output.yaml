@@ -1,0 +1,35 @@
+name: Reusable Build (emit version)
+
+on:
+  workflow_call:
+    outputs:
+      build-version:
+        type: string
+    inputs:
+      python-version:
+        type: string
+        required: false
+        default: "3.11"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      build-version: ${{ steps.setver.outputs.build_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+
+      - id: setver
+        name: Set build version
+        run: |
+          # In real world you'd compute or read the version
+          echo "build_version=1.2.3" >> $GITHUB_OUTPUT
+
+      - name: Run unit tests (no-op example)
+        run: echo "Unit tests would run here"

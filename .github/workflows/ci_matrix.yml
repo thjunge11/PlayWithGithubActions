@@ -1,0 +1,40 @@
+name: CI — matrix builds + E2E
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  # MATRIX: runs the reusable build for each python-version in the matrix
+  build:
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]   # add/remove versions as needed
+      fail-fast: false                     # allow full matrix to complete for diagnostics
+      max-parallel: 4                      # optional: limit concurrency
+    uses: ./.github/workflows/python-build.yml
+    with:
+      python-version: ${{ matrix.python-version }}
+    # Each matrix entry will call the reusable workflow with its python-version.
+
+  # E2E job: runs once after all matrix build runs succeed
+  e2e:
+    needs: build                # waits for ALL matrix build runs to finish successfully
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # every job gets its own runner; checkout again
+
+      - name: Set up Python for E2E
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps for E2E
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run E2E tests
+        run: pytest tests/e2e -q

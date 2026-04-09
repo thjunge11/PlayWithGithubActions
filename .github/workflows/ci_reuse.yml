@@ -1,0 +1,31 @@
+name: CI with E2E
+
+on: [push, pull_request]  # Run this workflow on push and pull requests
+
+jobs:
+  # 1) Call the reusable build workflow (runs unit tests)
+  build:
+    uses: ./.github/workflows/python-build.yml
+    with:
+      python-version: "3.11"   # Pass Python version to reusable workflow
+
+  # 2) Run end-to-end (E2E) tests, but only if build passes
+  e2e:
+    needs: build              # Wait for the build job to finish successfully
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        # Checkout code again (each job runs on a new fresh runner)
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+        # Install Python 3.11 for E2E tests
+
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+        # Install dependencies again (each job has its own environment)
+
+      - run: pytest tests/e2e -q
+        # Run only the tests inside the tests/e2e folder

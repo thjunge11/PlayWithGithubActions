@@ -1,0 +1,39 @@
+name: "Reusable: Python Build"
+
+on:
+  workflow_call:                 # makes this workflow callable by other workflows
+    inputs:
+      python-version:
+        description: "Python version"
+        required: false
+        type: string
+        default: "3.11"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # required to access source, tests, requirements.txt
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+        # installs the Python version provided by the caller
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            echo "requirements.txt missing — failing so caller sees error"
+            exit 1
+          fi
+        # fail early so caller gets clear feedback
+
+      - name: Run unit tests
+        run: pytest -q
+        # If tests fail, this job exits non-zero and caller receives failure

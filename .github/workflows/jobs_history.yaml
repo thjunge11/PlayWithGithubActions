@@ -1,0 +1,22 @@
+name: jobs history
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create file testfile.lck
+        run: touch testfile.lck
+
+  check:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      JOB_VAR: "job scope"
+    steps:
+      - name: list directory
+        run: ls
+      - name: test if file testfile.lck exists
+        run: test -f testfile.lck

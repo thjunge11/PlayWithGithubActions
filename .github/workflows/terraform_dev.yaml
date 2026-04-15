@@ -5,7 +5,7 @@ on:
 
 jobs:
   plan:
-    if: github.event_name == 'pull_request'
+    #if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,7 +23,7 @@ jobs:
         working-directory: env/dev
 
   apply:
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     needs: plan
     runs-on: ubuntu-latest
     environment: production   #  require manual approval in GitHub
